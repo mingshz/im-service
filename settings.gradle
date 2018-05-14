@@ -1,0 +1,4 @@
+rootProject.name = 'im-service'
+
+include 'service','web'
+

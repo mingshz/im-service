@@ -1,0 +1,74 @@
+group 'com.helloztt.im'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.2.31'
+    ext.jiangcai_version = '4.0-SNAPSHOT'
+    ext.hibernate_version = '5.2.10.Final'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+//        classpath "org.hibernate:hibernate-jpamodelgen:5.2.10.Final"
+    }
+}
+
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'kotlin'
+    apply plugin: 'idea'
+    apply plugin: 'kotlin-noarg'
+    apply plugin: 'kotlin-allopen'
+    apply plugin: 'kotlin-kapt'
+
+    noArg {
+        annotation("com.helloztt.im.service.annotations.NoArgsConstructor")
+    }
+
+    allOpen {
+        annotation("com.helloztt.im.service.annotations.AllArgsConstructor")
+    }
+
+    repositories {
+        mavenCentral()
+        maven{
+            url 'http://repo.jiangcai.me:8082/content/groups/public'
+        }
+
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+            compile 'org.codehaus.groovy:groovy-all:2.3.11'
+            compile "org.hibernate:hibernate-jpamodelgen:5.2.10.Final"
+            compile "me.jiangcai.lib:spring:$jiangcai_version"
+            kapt "org.hibernate:hibernate-jpamodelgen:$hibernate_version"
+
+            testCompile "me.jiangcai.lib:test:$jiangcai_version"
+            testCompile group: 'junit', name: 'junit', version: '4.12'
+        }
+
+        compileKotlin {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+        compileTestKotlin {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+
+}
+
+project (":service"){
+    dependencies {
+        compile "org.apache.httpcomponents:httpmime:4.5.3"
+    }
+}
+
+project (":web") {
+    dependencies{
+        compile(project(":service"))
+    }
+}
