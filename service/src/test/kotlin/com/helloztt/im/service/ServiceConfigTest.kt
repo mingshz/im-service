@@ -27,4 +27,4 @@ class DatabaseConfigTest
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(classes = [ServiceConfig::class, DatabaseConfigTest::class])
 @NoArgsConstructor
-open class ServiceConfigTest
+abstract class ServiceConfigTest
