@@ -20,10 +20,10 @@ data class IMUser(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column var id: Long?,
-        @Column var merId: String?,
-        @Column var supplier: IMSupplier?,
-        @Column var userName: String?,
-        @Column var password: String?,
+        @Column var merId: String,
+        @Column var supplier: IMSupplier,
+        @Column var userName: String,
+        @Column var password: String,
         @Column var nickName: String?,
         @Column var created: LocalDateTime?
 )

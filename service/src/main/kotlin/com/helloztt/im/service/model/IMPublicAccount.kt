@@ -23,7 +23,7 @@ abstract class IMPublicAccount(
         var appKey: String,
         var appID: String,
         var appSecret: String,
-        var imURl: String,
+        var imURL: String,
         var expireTime: LocalDateTime
 
 )

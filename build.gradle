@@ -24,7 +24,6 @@ allprojects {
     //gradle插件
     apply plugin: 'java'
     apply plugin: 'kotlin'
-    apply plugin: 'idea'
     apply plugin: 'kotlin-noarg'
     apply plugin: 'kotlin-allopen'
     apply plugin: 'kotlin-kapt'
@@ -48,6 +47,7 @@ allprojects {
             compile 'org.codehaus.groovy:groovy-all:2.3.11'
             compile "org.hibernate:hibernate-jpamodelgen:5.2.10.Final"
             compile "me.jiangcai.lib:spring:$jiangcai_version"
+            
             kapt "org.hibernate:hibernate-jpamodelgen:$hibernate_version"
 
             testCompile "me.jiangcai.lib:test:$jiangcai_version"
