@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  * @author helloztt
  * @since 2018-05-14 10:49
  */
-abstract class IMPublicAccount(
+data class IMPublicAccount(
         /**
          * 商户ID
          */
@@ -23,7 +23,7 @@ abstract class IMPublicAccount(
         var appKey: String,
         var appID: String,
         var appSecret: String,
-        var imURL: String,
-        var expireTime: LocalDateTime
+        var imURL: String?,
+        var expireTime: LocalDateTime?
 
 )

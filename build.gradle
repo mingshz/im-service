@@ -29,11 +29,11 @@ allprojects {
     apply plugin: 'kotlin-kapt'
 
     noArg {
-        annotation("com.helloztt.im.service.annotations.NoArgsConstructor")
+        annotation("com.helloztt.im.service.annotations.KTBean")
     }
 
     allOpen {
-        annotation("com.helloztt.im.service.annotations.AllArgsConstructor")
+        annotation("com.helloztt.im.service.annotations.KTBean")
     }
 
     repositories {

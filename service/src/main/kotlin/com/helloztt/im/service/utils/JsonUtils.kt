@@ -10,13 +10,12 @@ import org.springframework.util.StringUtils
  * @author helloztt
  * @since 2018-05-16 00:02
  */
-class JsonUtils {
-    private val sensitiveThreadLocal = ThreadLocal<Int>()
+object JsonUtils{
     val mapper = ObjectMapper()
 
     init {
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
     }
 
     /**

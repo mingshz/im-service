@@ -20,6 +20,4 @@ interface IMUserService {
      * 查找im用户
      */
     fun findByUserName(userName: String, supplier: IMSupplier): IMUser?
-
-    fun findAll(): List<IMUser>
 }

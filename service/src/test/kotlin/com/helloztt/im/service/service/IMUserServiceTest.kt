@@ -3,14 +3,11 @@ package com.helloztt.im.service.service
 import com.helloztt.im.service.ServiceConfigTest
 import com.helloztt.im.service.entity.IMUser
 import com.helloztt.im.service.enums.IMSupplier
+import com.helloztt.im.service.merId
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.springframework.beans.factory.annotation.Autowired
-import java.util.*
 
 /**
- * TODO
  *
  * @author helloztt
  * @version V1.2.5
@@ -18,24 +15,22 @@ import java.util.*
  */
 class IMUserServiceTest : ServiceConfigTest() {
     @Autowired
-    private val imUserService: IMUserService? = null
+    private lateinit var imUserService: IMUserService
 
     @Test
     fun addIMUser() {
-        val userName = UUID.randomUUID().toString()
+        val userName = "17145947881"
         val supplier = IMSupplier.EASEMOB
-        val imUser = IMUser(null
-                , UUID.randomUUID().toString()
-                , supplier
-                , userName
-                , UUID.randomUUID().toString()
-                , UUID.randomUUID().toString()
-                , null
-        )
-        imUserService?.addIMUser(imUser)
-        println(imUserService?.findAll())
-        val actualIMUser = imUserService?.findByUserName(userName, supplier)
+        val imUser = IMUser(merId = merId
+                , userName = userName
+                , password = userName)
+        imUserService.addIMUser(imUser)
+        val actualIMUser = imUserService.findByUserName(userName, supplier)
         println(actualIMUser)
+
+        //再注册一遍
+        imUserService.addIMUser(imUser)
+        imUserService.findByUserName(userName, supplier)
     }
 
 }

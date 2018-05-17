@@ -1,17 +1,24 @@
 package com.helloztt.im.service.service.impl
 
+import com.helloztt.im.service.annotations.KTBean
 import com.helloztt.im.service.entity.IMUser
 import com.helloztt.im.service.enums.IMSupplier
+import com.helloztt.im.service.exceptions.AuthenticateException
+import com.helloztt.im.service.exceptions.RequestLimitException
+import com.helloztt.im.service.model.IMPublicAccount
 import com.helloztt.im.service.repository.IMUserRepository
 import com.helloztt.im.service.service.IMUserService
+import com.helloztt.im.service.service.factory.EaseMobIMFactory
+import com.helloztt.im.service.service.factory.IMFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
+import java.io.IOException
+import java.lang.reflect.UndeclaredThrowableException
 import java.time.LocalDateTime
+import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.CriteriaQuery
 
 /**
  *
@@ -20,21 +27,41 @@ import javax.persistence.criteria.CriteriaQuery
  * @since 2018-05-14 15:55
  */
 @Service
+@KTBean
 class IMUserServiceImpl : IMUserService {
+    @Autowired
+    private lateinit var imUserRepository: IMUserRepository
+    @Autowired
+    private lateinit var publisher: ApplicationEventPublisher
+    @Autowired
+    private lateinit var entityManager: EntityManager
+    @Autowired
+    private lateinit var imPublicAccount: IMPublicAccount
 
-    @Autowired
-    private val imUserRepository: IMUserRepository? = null
-    @Autowired
-    private val publisher: ApplicationEventPublisher? = null
-    @Autowired
-    private val entityManager: EntityManager? = null
+    private lateinit var imFactory: IMFactory
+
+    @PostConstruct
+    fun init(){
+        when (imPublicAccount.imSupplier){
+            IMSupplier.EASEMOB ->imFactory = EaseMobIMFactory(imPublicAccount)
+        }
+    }
 
     override fun addIMUser(user: IMUser) {
+        if (findByUserName(user.userName, imPublicAccount.imSupplier) != null) {
+            return
+        }
+        user.supplier = imPublicAccount.imSupplier
         user.created = LocalDateTime.now()
-        if(user.nickName == null){
+        if (user.nickName == null) {
             user.nickName = user.userName
         }
-        imUserRepository?.save(user)
+        try {
+            imFactory.addUser(imUser = user)
+            imUserRepository.save(user)
+        } catch (ex: UndeclaredThrowableException) {
+            doWithException(ex)
+        }
     }
 
     override fun findByUserName(userName: String, supplier: IMSupplier): IMUser? {
@@ -42,12 +69,17 @@ class IMUserServiceImpl : IMUserService {
             throw IllegalArgumentException()
         }
 
-        return imUserRepository?.findByUserNameAndSupplier(userName, supplier)
+        return imUserRepository.findByUserNameAndSupplier(userName, supplier)
     }
 
-    override fun findAll(): List<IMUser> {
-        val cb: CriteriaBuilder = entityManager!!.criteriaBuilder
-        val cq: CriteriaQuery<IMUser> = cb.createQuery(IMUser::class.java)
-        return entityManager.createQuery(cq).resultList
+    @Throws(IOException::class, IllegalArgumentException::class, AuthenticateException::class, RequestLimitException::class)
+    private fun doWithException(ex: UndeclaredThrowableException) {
+        val exception = ex.undeclaredThrowable
+        if (exception is IOException
+                || exception is IllegalArgumentException
+                || exception is AuthenticateException
+                || exception is RequestLimitException)
+            throw exception
+        throw ex
     }
 }
