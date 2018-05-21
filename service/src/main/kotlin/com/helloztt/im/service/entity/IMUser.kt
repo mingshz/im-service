@@ -18,9 +18,18 @@ data class IMUser(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column var id: Long? = null,
         @Column var merId: String,
+        /**
+         * 客服供应商
+         */
         @Column var supplier: IMSupplier? = null,
-        @Column var userName: String,
-        @Column var password: String,
-        @Column var nickName: String? = null,
+        /**
+         * im用户名
+         */
+        @Column(length = 50) var userName: String,
+        /**
+         * im密码
+         */
+        @Column(length = 50) var password: String,
+        @Column(length = 50) var nickName: String? = null,
         @Column var created: LocalDateTime? = null
 )

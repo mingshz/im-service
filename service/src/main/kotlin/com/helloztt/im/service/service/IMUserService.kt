@@ -4,10 +4,7 @@ import com.helloztt.im.service.entity.IMUser
 import com.helloztt.im.service.enums.IMSupplier
 
 /**
- * TODO
- *
  * @author helloztt
- * @version V1.2.5
  * @since 2018-05-14 15:54
  */
 interface IMUserService {

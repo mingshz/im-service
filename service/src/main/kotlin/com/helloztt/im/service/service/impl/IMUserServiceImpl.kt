@@ -11,14 +11,13 @@ import com.helloztt.im.service.service.IMUserService
 import com.helloztt.im.service.service.factory.EaseMobIMFactory
 import com.helloztt.im.service.service.factory.IMFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
 import java.io.IOException
 import java.lang.reflect.UndeclaredThrowableException
 import java.time.LocalDateTime
 import javax.annotation.PostConstruct
-import javax.persistence.EntityManager
 
 /**
  *
@@ -32,21 +31,18 @@ class IMUserServiceImpl : IMUserService {
     @Autowired
     private lateinit var imUserRepository: IMUserRepository
     @Autowired
-    private lateinit var publisher: ApplicationEventPublisher
-    @Autowired
-    private lateinit var entityManager: EntityManager
-    @Autowired
     private lateinit var imPublicAccount: IMPublicAccount
 
     private lateinit var imFactory: IMFactory
 
     @PostConstruct
-    fun init(){
-        when (imPublicAccount.imSupplier){
-            IMSupplier.EASEMOB ->imFactory = EaseMobIMFactory(imPublicAccount)
+    fun init() {
+        when (imPublicAccount.imSupplier) {
+            IMSupplier.EASEMOB -> imFactory = EaseMobIMFactory(imPublicAccount)
         }
     }
 
+    @Transactional
     override fun addIMUser(user: IMUser) {
         if (findByUserName(user.userName, imPublicAccount.imSupplier) != null) {
             return

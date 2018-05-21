@@ -1,6 +1,7 @@
 package com.helloztt.im.service.service.factory
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.helloztt.im.service.entity.IMAgent
 import com.helloztt.im.service.entity.IMUser
 import com.helloztt.im.service.enums.IMSupplier
 import com.helloztt.im.service.exceptions.AuthenticateException
@@ -23,15 +24,16 @@ import java.time.LocalDateTime
 import java.util.*
 
 /**
- * TODO
+ * 环信IM
  *
  * @author helloztt
  * @since 2018-05-17 15:57
  */
-class EaseMobIMFactory : IMFactory {
+class EaseMobIMFactory(account: IMPublicAccount) : IMFactory {
+
     private val log = LogFactory.getLog(EaseMobIMFactory::class.java)
 
-    override var imPublicAccount: IMPublicAccount
+    override var imPublicAccount: IMPublicAccount = account
 
     private val requestConfig: RequestConfig = RequestConfig.custom()
             .setConnectTimeout(30000)
@@ -50,16 +52,15 @@ class EaseMobIMFactory : IMFactory {
     )
     private var token: String? = null
 
-    constructor(account: IMPublicAccount) {
-        imPublicAccount = account
+    init {
         if (imPublicAccount.imSupplier != IMSupplier.EASEMOB) {
             log.info("Ease Mob is not running")
-            return
+        } else {
+            if (imPublicAccount.imURL == null) {
+                imPublicAccount.imURL = urlPrefix
+            }
+            imPublicAccount.imURL = "${imPublicAccount.imURL}/${imPublicAccount.organName()}/${imPublicAccount.appName()}"
         }
-        if (imPublicAccount.imURL == null) {
-            imPublicAccount.imURL = urlPrefix
-        }
-        imPublicAccount.imURL = "${imPublicAccount.imURL}/${imPublicAccount.organName()}/${imPublicAccount.appName()}"
     }
 
     override fun addUser(imUser: IMUser) {
@@ -92,6 +93,10 @@ class EaseMobIMFactory : IMFactory {
                 throw e
             }
         }
+    }
+
+    override fun getWebIMUrl(imAgent: IMAgent): String {
+        return "https://kefu.easemob.com/webim/im.html?configId=${imAgent.configId}&agentName=${imAgent.agentId}"
     }
 
     /**
