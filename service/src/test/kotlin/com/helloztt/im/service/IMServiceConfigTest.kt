@@ -46,6 +46,6 @@ abstract class IMUserAccountConfig {
 }
 
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration(classes = [IMUserAccountConfig::class, ServiceConfig::class, DatabaseConfigTest::class])
+@ContextConfiguration(classes = [IMUserAccountConfig::class, IMServiceConfig::class, DatabaseConfigTest::class])
 @ActiveProfiles(ProfileConstant.unitTest)
-abstract class ServiceConfigTest:SpringWebTest()
+abstract class IMServiceConfigTest:SpringWebTest()

@@ -1,6 +1,6 @@
 package com.helloztt.im.service.service
 
-import com.helloztt.im.service.ServiceConfigTest
+import com.helloztt.im.service.IMServiceConfigTest
 import com.helloztt.im.service.entity.IMUser
 import com.helloztt.im.service.enums.IMSupplier
 import com.helloztt.im.service.merId
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @version V1.2.5
  * @since 2018-05-14 15:58
  */
-class IMUserServiceTest : ServiceConfigTest() {
+class IMUserServiceTest : IMServiceConfigTest() {
     @Autowired
     private lateinit var imUserService: IMUserService
 

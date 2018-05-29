@@ -1,5 +1,4 @@
-group 'com.helloztt.im'
-version '1.0-SNAPSHOT'
+
 
 buildscript {
     //扩展变量
@@ -27,6 +26,9 @@ allprojects {
     apply plugin: 'kotlin-noarg'
     apply plugin: 'kotlin-allopen'
     apply plugin: 'kotlin-kapt'
+
+    group 'me.helloztt.im'
+    version '1.0-SNAPSHOT'
 
     noArg {
         annotation("com.helloztt.im.service.annotations.KTBean")
@@ -65,6 +67,21 @@ allprojects {
 }
 
 project (":service"){
+    apply plugin: 'maven-publish'
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+        repositories {
+            maven {
+                url = "http://repo.jiangcai.me:8082/content/repositories/snapshots/"
+            }
+        }
+    }
+
     dependencies {
         compile "org.apache.httpcomponents:httpmime:4.5.3"
     }

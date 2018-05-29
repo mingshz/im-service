@@ -32,3 +32,5 @@ buildNumber.properties
 /web/logs/
 /client-service/src/main/webapp/
 /web/src/main/webapp/_resources/
+
+local.properties

@@ -1,6 +1,6 @@
 package com.helloztt.im.service.service
 
-import com.helloztt.im.service.ServiceConfigTest
+import com.helloztt.im.service.IMServiceConfigTest
 import com.helloztt.im.service.entity.IMAgent
 import org.junit.Assert.*
 import org.junit.Before
@@ -13,7 +13,7 @@ import java.util.*
  * @author helloztt
  * @since 2018-05-21 09:13
  */
-class IMAgentServiceTest : ServiceConfigTest() {
+class IMAgentServiceTest : IMServiceConfigTest() {
     @Autowired
     private lateinit var imAgentService: IMAgentService
     private lateinit var mockIMAgent: IMAgent

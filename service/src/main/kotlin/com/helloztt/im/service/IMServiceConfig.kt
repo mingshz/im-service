@@ -15,4 +15,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @ComponentScan(value = ["com.helloztt.im.service.service","com.helloztt.im.service.entity"])
 @EnableJpaRepositories(basePackages = ["com.helloztt.im.service.repository"])
 @EnableAspectJAutoProxy
-open class ServiceConfig
+open class IMServiceConfig
