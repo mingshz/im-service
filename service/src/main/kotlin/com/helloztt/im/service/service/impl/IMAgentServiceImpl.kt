@@ -24,6 +24,7 @@ class IMAgentServiceImpl(
         @Autowired private val imAgentRepository: IMAgentRepository,
         @Autowired private val imPublicAccount: IMPublicAccount
 ) : IMAgentService {
+
     private lateinit var imFactory: IMFactory
 
     @PostConstruct
@@ -31,6 +32,9 @@ class IMAgentServiceImpl(
         when (imPublicAccount.imSupplier) {
             IMSupplier.EASEMOB -> imFactory = EaseMobIMFactory(imPublicAccount)
         }
+    }
+    override fun findAll(): List<IMAgent> {
+        return imAgentRepository.findAll()
     }
 
     @Transactional

@@ -8,6 +8,11 @@ import com.helloztt.im.service.entity.IMAgent
  * @since 2018-05-18 17:07
  */
 interface IMAgentService {
+
+    /**
+     * 客服列表
+     */
+    fun findAll():List<IMAgent>
     /**
      * 新增/删除客服
      * @param agent 客服信息，包括agentId,nickName,

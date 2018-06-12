@@ -58,8 +58,8 @@ class EaseMobIMFactory(account: IMPublicAccount) : IMFactory {
         } else {
             if (imPublicAccount.imURL == null) {
                 imPublicAccount.imURL = urlPrefix
+                imPublicAccount.imURL = "${imPublicAccount.imURL}/${imPublicAccount.organName()}/${imPublicAccount.appName()}"
             }
-            imPublicAccount.imURL = "${imPublicAccount.imURL}/${imPublicAccount.organName()}/${imPublicAccount.appName()}"
         }
     }
 
