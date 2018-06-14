@@ -17,7 +17,7 @@ interface IMAgentService {
      * 新增/删除客服
      * @param agent 客服信息，包括agentId,nickName,
      */
-    fun editAgent(agent: IMAgent)
+    fun editAgent(agent: IMAgent): IMAgent
 
     /**
      * 根据主键查找客服

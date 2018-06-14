@@ -33,12 +33,13 @@ class IMAgentServiceImpl(
             IMSupplier.EASEMOB -> imFactory = EaseMobIMFactory(imPublicAccount)
         }
     }
+
     override fun findAll(): List<IMAgent> {
         return imAgentRepository.findAll()
     }
 
     @Transactional
-    override fun editAgent(agent: IMAgent) {
+    override fun editAgent(agent: IMAgent): IMAgent {
         var oldAgent: IMAgent? = null
         if (agent.id != null) {
             oldAgent = imAgentRepository.findByIdAndSupplier(agent.id as Long, imPublicAccount.imSupplier)
@@ -54,6 +55,7 @@ class IMAgentServiceImpl(
         }
         oldAgent.uri = imFactory.getWebIMUrl(oldAgent)
         imAgentRepository.save(oldAgent)
+        return oldAgent
     }
 
     override fun findByAgentId(id: Long): IMAgent? {
