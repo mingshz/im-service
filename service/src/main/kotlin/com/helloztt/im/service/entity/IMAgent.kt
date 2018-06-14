@@ -44,6 +44,6 @@ data class IMAgent(
         /**
          * 客服是否可用
          */
-        @Column var enabled: Boolean = true
+        @Column(columnDefinition="timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP") var enabled: Boolean = true
 
 )

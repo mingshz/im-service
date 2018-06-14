@@ -31,5 +31,5 @@ data class IMUser(
          */
         @Column(length = 50) var password: String,
         @Column(length = 50) var nickName: String? = null,
-        @Column var created: LocalDateTime? = null
+        @Column(columnDefinition="timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP") var created: LocalDateTime? = null
 )
